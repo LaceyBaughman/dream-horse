@@ -12,7 +12,7 @@ export class HorsesController extends BaseController {
       .get('/:id', this.getById)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
-      // .put('', this.edit)
+      .put('', this.edit)
       .delete('/:id', this.remove)
   }
 
@@ -65,6 +65,4 @@ export class HorsesController extends BaseController {
       next(error)
     }
   }
-
-
 }
