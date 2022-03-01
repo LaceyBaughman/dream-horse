@@ -1,19 +1,20 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
-class ValuesService {
-  async find(query = {}) {
-    const values = await dbContext.Values.find(query)
-    return values
+class HorsesService {
+
+  async getAll(query = {}) {
+    const horses = await dbContext.Horses.find(query)
+    return horses
   }
 
-  async findById(id) {
-    const value = await dbContext.Values.findById(id)
-    if (!value) {
-      throw new BadRequest('Invalid Id')
-    }
-    return value
+  async create(body) {
+    const horse = await dbContext.Horses.create(body)
+    return horse
   }
+
+
 }
 
-export const valuesService = new ValuesService()
+
+export const horsesService = new HorsesService()
