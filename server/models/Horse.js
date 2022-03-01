@@ -10,7 +10,7 @@ export const HorseSchema = new Schema(
     price: { type: Number, required: true },
     imgUrl: { type: String, default: 'https://placehold.id/200x200' },
     description: { type: String },
-    // creatorId: { type: Schema.Types.ObjectId, ref: 'Account' }
+    creatorId: { type: Schema.Types.ObjectId, ref: 'Account' }
 
   },
   { timestamps: true, toJSON: { virtuals: true } }

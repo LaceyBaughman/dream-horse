@@ -1,6 +1,7 @@
 import BaseController from '../utils/BaseController'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { horsesService } from "../services/HorsesService"
+import { Forbidden } from "../utils/Errors"
 
 export class HorsesController extends BaseController {
   constructor() {
@@ -43,7 +44,18 @@ export class HorsesController extends BaseController {
     }
   }
 
-  async remove(res, req, next) {
+  async edit(req, res, next) {
+    try {
+      req.body.creatorId = req.userInfo.id
+      req.body.id = req.params.id
+      const update = await horsesService.edit(req.body)
+      return res.send(update)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async remove(req, res, next) {
     try {
       const userId = req.userInfo.id
       const horseId = req.params.id
