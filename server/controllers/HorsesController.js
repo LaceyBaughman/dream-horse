@@ -8,11 +8,11 @@ export class HorsesController extends BaseController {
     this.router
       .get('', this.getAll)
       // NOTE: Beyond this point all routes require Authorization tokens (the user must be logged in)
-      // .get('/:id', this.getById)
+      .get('/:id', this.getById)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
-    // .put('', this.edit)
-    // .delete('/:id', this.remove)
+      // .put('', this.edit)
+      .delete('/:id', this.remove)
   }
 
   async getAll(req, res, next) {
@@ -21,6 +21,14 @@ export class HorsesController extends BaseController {
       return res.send(horses)
     } catch (error) {
       next(error)
+    }
+  }
+
+  async getById(req, res, next) {
+    try {
+      const horse = await horsesService.getById(req.params.id)
+      return res.send(horse)
+    } catch (error) {
     }
   }
 
@@ -34,4 +42,17 @@ export class HorsesController extends BaseController {
       next(error)
     }
   }
+
+  async remove(res, req, next) {
+    try {
+      const userId = req.userInfo.id
+      const horseId = req.params.id
+      await horsesService.remove(horseId, userId)
+      return res.send('Delorted Horsey')
+    } catch (error) {
+      next(error)
+    }
+  }
+
+
 }
